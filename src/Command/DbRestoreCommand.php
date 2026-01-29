@@ -70,28 +70,26 @@ class DbRestoreCommand extends Command
 
         // Use env var for password for security
         $env = [];
-        $command = sprintf(
-            'mysql -h %s -P %s -u %s %s < %s',
+        
+        // Use sed to replace utf8mb4_0900_ai_ci (MySQL 8.0) with utf8mb4_unicode_ci (MariaDB/Older MySQL)
+        // This fixes compatibility issues when restoring dumps from newer MySQL versions to MariaDB
+        $sedCommand = sprintf('sed "s/utf8mb4_0900_ai_ci/utf8mb4_unicode_ci/g" %s', escapeshellarg($file));
+        
+        $mysqlCommand = sprintf(
+            'mysql -h %s -P %s -u %s %s',
             $host,
             $port,
             $user,
-            $dbname,
-            $file
+            $dbname
         );
 
         if ($pass) {
             $env['MYSQL_PWD'] = $pass;
-            $command = sprintf(
-                'mysql -h %s -P %s -u %s %s < %s',
-                $host,
-                $port,
-                $user,
-                $dbname,
-                $file
-            );
         }
 
-        $output->writeln(sprintf("Restoring MySQL database '%s' from '%s'...", $dbname, $file));
+        $command = sprintf('%s | %s', $sedCommand, $mysqlCommand);
+
+        $output->writeln(sprintf("Restoring MySQL database '%s' from '%s' (with collation fix)...", $dbname, $file));
 
         $process = Process::fromShellCommandline($command, null, $env);
         $process->setTimeout(300);
