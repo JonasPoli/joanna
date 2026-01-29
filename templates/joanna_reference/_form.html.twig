@@ -1,0 +1,315 @@
+{{ form_start(form, {'attr': {'class': 'space-y-8'}}) }}
+
+    {% if form.vars.errors|length > 0 %}
+        <div class="alert alert-error shadow-lg">
+            <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <div>
+                <h3 class="font-bold">Erro ao salvar!</h3>
+                <div class="text-sm">{{ form_errors(form) }}</div>
+            </div>
+        </div>
+    {% endif %}
+    
+    <div class="space-y-8">
+        <!-- Origem na Obra -->
+        <div class="card bg-base-100 shadow-xl border border-base-200">
+            <div class="card-body">
+                <h2 class="card-title text-base-content">Origem na Obra de Joanna</h2>
+                <p class="text-sm text-base-content/70">Indique onde a referência se encontra na obra de Joanna de Ângelis.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                    <div class="form-control w-full">
+                         {{ form_label(form.work, null, {'label_attr': {'class': 'label-text font-medium'}}) }}
+                         {{ form_widget(form.work, {'attr': {'class': 'select select-bordered w-full'}}) }}
+                         {{ form_errors(form.work, {'attr': {'class': 'text-error text-sm mt-1'}}) }}
+                    </div>
+
+                    <div class="form-control w-full">
+                         {{ form_label(form.joannaChapter, null, {'label_attr': {'class': 'label-text font-medium'}}) }}
+                         {{ form_widget(form.joannaChapter, {'attr': {'class': 'input input-bordered w-full'}}) }}
+                         {{ form_errors(form.joannaChapter, {'attr': {'class': 'text-error text-sm mt-1'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referência Bíblica -->
+        <div class="card bg-base-100 shadow-xl border border-base-200">
+            <div class="card-body">
+                <h2 class="card-title text-base-content">Referência Bíblica Associada</h2>
+                <p class="text-sm text-base-content/70">Detalhe a passagem bíblica que está sendo referenciada.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mt-4">
+                    <div class="form-control w-full md:col-span-2">
+                         {{ form_label(form.bibleBook, null, {'label_attr': {'class': 'label-text font-medium'}}) }}
+                         {{ form_widget(form.bibleBook, {'attr': {'class': 'select select-bordered w-full', 'id': 'bible_book_select'}}) }}
+                         {{ form_errors(form.bibleBook, {'attr': {'class': 'text-error text-sm mt-1'}}) }}
+                    </div>
+
+                    <div class="form-control w-full md:col-span-1">
+                         {{ form_label(form.bibleChapter, null, {'label_attr': {'class': 'label-text font-medium'}}) }}
+                         {{ form_widget(form.bibleChapter, {'attr': {'class': 'hidden', 'id': 'real_bible_chapter'}}) }}
+                         <select id="proxy_bible_chapter" class="select select-bordered w-full" disabled>
+                            <option value="">Livro?</option>
+                         </select>
+                         {{ form_errors(form.bibleChapter, {'attr': {'class': 'text-error text-sm mt-1'}}) }}
+                    </div>
+
+                    <div class="form-control w-full md:col-span-2">
+                        <label class="label">
+                            <span class="label-text font-medium">Versículos (Início - Fim)</span>
+                        </label>
+                        <div class="flex items-center gap-2">
+                             {{ form_widget(form.bibleVerseStart, {'attr': {'class': 'hidden', 'id': 'real_verse_start'}}) }}
+                             {{ form_widget(form.bibleVerseEnd, {'attr': {'class': 'hidden', 'id': 'real_verse_end'}}) }}
+                             
+                             <div class="flex-1">
+                                <select id="proxy_verse_start" class="select select-bordered w-full" disabled>
+                                    <option value="">De</option>
+                                </select>
+                             </div>
+                             <span class="text-base-content/50 font-bold">—</span>
+                             <div class="flex-1">
+                                <select id="proxy_verse_end" class="select select-bordered w-full" disabled>
+                                    <option value="">Até</option>
+                                </select>
+                             </div>
+                        </div>
+                         {{ form_errors(form.bibleVerseStart, {'attr': {'class': 'text-error text-sm mt-1'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conteúdo -->
+        <div class="card bg-base-100 shadow-xl border border-base-200">
+            <div class="card-body">
+                <h2 class="card-title text-base-content">Detalhes do Conteúdo</h2>
+                <p class="text-sm text-base-content/70">Classificação e texto da citação.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div class="form-control w-full">
+                         {{ form_label(form.referenceType, null, {'label_attr': {'class': 'label-text font-medium'}}) }}
+                         {{ form_widget(form.referenceType, {'attr': {'class': 'select select-bordered w-full'}}) }}
+                         {{ form_errors(form.referenceType, {'attr': {'class': 'text-error text-sm mt-1'}}) }}
+                    </div>
+
+                    <div class="form-control w-full md:col-span-2">
+                         {{ form_label(form.citation, null, {'label_attr': {'class': 'label-text font-medium'}}) }}
+                         {{ form_widget(form.citation, {'attr': {'class': 'textarea textarea-bordered w-full', 'rows': 4}}) }}
+                         <label class="label">
+                            <span class="label-text-alt text-base-content/60">Insira o texto exato da citação ou comentário.</span>
+                         </label>
+                         {{ form_errors(form.citation, {'attr': {'class': 'text-error text-sm mt-1'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 flex justify-end">
+        <button type="submit" class="btn btn-primary text-white">
+            {{ button_label|default('Salvar Referência') }}
+        </button>
+    </div>
+{{ form_end(form) }}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Elements - Using actual Symfony IDs
+        const bookSelect = document.getElementById('joanna_reference_bibleBook');
+        const chapterSelect = document.getElementById('proxy_bible_chapter');
+        // Hidden Inputs
+        const realChapterInput = document.getElementById('joanna_reference_bibleChapter');
+        const realVerseStartInput = document.getElementById('joanna_reference_bibleVerseStart');
+        const realVerseEndInput = document.getElementById('joanna_reference_bibleVerseEnd');
+        // Verse Proxies
+        const verseStartSelect = document.getElementById('proxy_verse_start');
+        const verseEndSelect = document.getElementById('proxy_verse_end');
+
+        // Initial Values (from PHP/Symfony)
+        if (!bookSelect) return; // Guard clause
+
+        const initialBookId = bookSelect.value;
+        const initialChapter = realChapterInput.value;
+        const initialVerseStart = realVerseStartInput.value;
+        const initialVerseEnd = realVerseEndInput.value;
+
+        // Init Logic
+        if (initialBookId) {
+            loadChapters(initialBookId, initialChapter);
+            if (initialChapter) {
+                loadVerses(initialBookId, initialChapter, initialVerseStart, initialVerseEnd);
+            }
+        }
+
+        // --- Event Listeners ---
+
+        // 1. Book Changed
+        bookSelect.addEventListener('change', function() {
+            const bookId = this.value;
+            
+            // Reset downstream
+            resetSelect(chapterSelect, 'Selecione o Capítulo');
+            resetSelect(verseStartSelect, 'Início');
+            resetSelect(verseEndSelect, 'Fim');
+            
+            // Clear real inputs
+            realChapterInput.value = '';
+            realVerseStartInput.value = '';
+            realVerseEndInput.value = '';
+            
+            if (bookId) {
+                loadChapters(bookId);
+            }
+        });
+
+        // 2. Proxy Chapter Changed (Select)
+        chapterSelect.addEventListener('change', function() {
+            const chapter = this.value;
+            realChapterInput.value = chapter;
+            
+            // Reset downstream verses
+            resetSelect(verseStartSelect, 'Início');
+            resetSelect(verseEndSelect, 'Fim');
+            realVerseStartInput.value = '';
+            realVerseEndInput.value = '';
+
+            if (chapter) {
+                loadVerses(bookSelect.value, chapter);
+            }
+        });
+
+        // 3. Verse Start Changed (Proxy)
+        verseStartSelect.addEventListener('change', function() {
+            const start = this.value;
+            realVerseStartInput.value = start;
+            if (start) {
+                updateVerseEndOptions(parseInt(start));
+            } else {
+                // If start is cleared, reset end
+                resetSelect(verseEndSelect, 'Fim');
+                realVerseEndInput.value = '';
+            }
+        });
+        
+        // 4. Verse End Changed (Proxy)
+        verseEndSelect.addEventListener('change', function() {
+            realVerseEndInput.value = this.value;
+        });
+
+        // --- Functions ---
+
+        function loadChapters(bookId, selectedChapter = null) {
+            chapterSelect.disabled = true;
+            chapterSelect.innerHTML = '<option value="">Carregando...</option>';
+            
+            fetch(`/api/bible/book/${bookId}/chapters`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(chapters => {
+                    chapterSelect.innerHTML = '<option value="">Selecione o Capítulo</option>';
+                    if (!chapters || chapters.length === 0) {
+                         chapterSelect.innerHTML = '<option value="">Nenhum capítulo encontrado</option>';
+                         return;
+                    }
+
+                    chapters.forEach(chap => {
+                        const isSelected = selectedChapter && (chap == selectedChapter);
+                        const option = new Option(chap, chap, isSelected, isSelected);
+                        chapterSelect.add(option);
+                    });
+                    chapterSelect.disabled = false;
+                    
+                    // Sync initial selection if it exists
+                    if (selectedChapter) {
+                        chapterSelect.value = selectedChapter;
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading chapters:', err);
+                    chapterSelect.innerHTML = '<option value="">Erro ao carregar</option>';
+                    chapterSelect.disabled = false;
+                });
+        }
+
+        function loadVerses(bookId, chapter, selectedStart = null, selectedEnd = null) {
+            verseStartSelect.disabled = true;
+            verseEndSelect.disabled = true;
+            verseStartSelect.innerHTML = '<option value="">Carregando...</option>';
+            
+            fetch(`/api/bible/book/${bookId}/chapter/${chapter}/verses`)
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    const maxVerse = data.max_verse;
+                    
+                    resetSelect(verseStartSelect, 'Início');
+                    resetSelect(verseEndSelect, 'Fim');
+                    
+                    if (maxVerse) {
+                        for (let i = 1; i <= maxVerse; i++) {
+                            const isStartSelected = selectedStart && (i == selectedStart);
+                            verseStartSelect.add(new Option(i, i, isStartSelected, isStartSelected));
+
+                            const isEndSelected = selectedEnd && (i == selectedEnd);
+                            verseEndSelect.add(new Option(i, i, isEndSelected, isEndSelected));
+                        }
+                        verseStartSelect.disabled = false;
+                        verseEndSelect.disabled = false;
+                        
+                        if (selectedStart) {
+                            verseStartSelect.value = selectedStart;
+                            updateVerseEndOptions(parseInt(selectedStart));
+                        }
+                        if (selectedEnd) {
+                            verseEndSelect.value = selectedEnd;
+                        }
+                    } else {
+                        verseStartSelect.innerHTML = '<option value="">Sem versículos</option>';
+                    }
+                })
+                .catch(err => {
+                    console.error('Error loading verses:', err);
+                });
+        }
+        
+        function updateVerseEndOptions(startVerse) {
+             const currentEnd = parseInt(realVerseEndInput.value);
+             verseEndSelect.disabled = false;
+             
+             Array.from(verseEndSelect.options).forEach(opt => {
+                 if (!opt.value) return; 
+                 const val = parseInt(opt.value);
+                 
+                 if (val < startVerse) {
+                     opt.hidden = true;
+                     opt.disabled = true;
+                 } else {
+                     opt.hidden = false;
+                     opt.disabled = false;
+                 }
+             });
+             
+             // If current selection is now invalid, reset it
+             if (currentEnd && currentEnd < startVerse) {
+                 verseEndSelect.value = "";
+                 realVerseEndInput.value = "";
+             }
+        }
+
+        function resetSelect(select, placeholder) {
+            select.innerHTML = `<option value="">${placeholder}</option>`;
+            select.disabled = true;
+            select.value = "";
+        }
+    });
+</script>

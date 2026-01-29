@@ -1,0 +1,26 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Editar Obra de Joanna{% endblock %}
+
+{% block admin_content %}
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Editar Obra</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    Atualize os dados da obra de Joanna de Ângelis.
+                </p>
+                <div class="mt-4">
+                     <a href="{{ path('app_admin_joanna_work_index') }}" class="text-indigo-600 hover:text-indigo-900">&larr; Voltar para lista</a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+             <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    {{ include('admin/joanna_work/_form.html.twig', {'button_label': 'Atualizar Obra'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

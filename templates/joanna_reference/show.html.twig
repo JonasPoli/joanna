@@ -1,0 +1,197 @@
+{% extends layout %}
+
+{% block title %}Detalhes da Referência{% endblock %}
+
+{% block admin_content %}
+    {{ block('content') }}
+{% endblock %}
+
+{% block editor_content %}
+    {{ block('content') }}
+{% endblock %}
+
+{% block content %}
+    <div class="card bg-base-100 shadow-xl border border-base-200 {{ approval_color_class(joanna_reference.approvalCount) }}">
+        <div class="card-body">
+            <div class="flex justify-between items-start">
+                <h2 class="card-title text-base-content mb-4">Referência #{{ joanna_reference.id }}</h2>
+                
+                {# Contador de Aprovações #}
+                <div class="flex items-center gap-2">
+                    <div class="badge badge-lg {{ joanna_reference.approvalCount > 0 ? 'badge-success' : 'badge-ghost' }} gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        {{ joanna_reference.approvalCount }} aprovação(ões)
+                    </div>
+                </div>
+            </div>
+            
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+            
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-error mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    <span>{{ message }}</span>
+                </div>
+            {% endfor %}
+            
+            <div class="overflow-x-auto">
+                <table class="table w-full">
+                    <tbody>
+                        <tr>
+                            <th class="w-1/4">Obra de Joanna</th>
+                            <td>{{ joanna_reference.work.title }} (Cap. {{ joanna_reference.joannaChapter }})</td>
+                        </tr>
+                        <tr>
+                            <th>Referência Bíblica</th>
+                            <td>
+                                <span class="badge badge-lg badge-ghost">
+                                    {{ joanna_reference.bibleBook.name }} {{ joanna_reference.bibleChapter }}:{{ joanna_reference.bibleVerseStart }}{% if joanna_reference.bibleVerseEnd %}-{{ joanna_reference.bibleVerseEnd }}{% endif %}
+                                </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Tipo</th>
+                            <td>
+                                <div class="badge badge-primary badge-outline">{{ joanna_reference.referenceType ? joanna_reference.referenceType.value : 'N/A' }}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Citação</th>
+                            <td class="italic text-base-content/80">"{{ joanna_reference.citation }}"</td>
+                        </tr>
+                        <tr>
+                            <th>Texto Bíblico Original</th>
+                            <td>
+                                <div id="bible_text_container" class="p-4 bg-base-200 rounded-lg text-sm leading-relaxed text-base-content/90">
+                                    <span class="loading loading-spinner loading-sm"></span> Carregando texto bíblico...
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Criado Por</th>
+                            <td>{{ joanna_reference.createdBy ? joanna_reference.createdBy.name : 'Sistema' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Aprovado Por</th>
+                            <td>
+                                {% if joanna_reference.approvals|length > 0 %}
+                                    <div class="flex flex-wrap gap-2">
+                                        {% for approval in joanna_reference.approvals %}
+                                            <div class="badge badge-outline gap-1">
+                                                {{ approval.approvedBy.name }}
+                                                <span class="text-xs opacity-60">({{ approval.createdAt|date('d/m/Y') }})</span>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <span class="text-base-content/50 italic">Nenhuma aprovação ainda</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="card-actions justify-between mt-6">
+                <div>
+                    {# Botão Aprovar - só aparece se usuário pode aprovar #}
+                    {% if joanna_reference.canUserApprove(app.user) %}
+                        <form action="{{ path('app_editor_joanna_reference_approve', {'id': joanna_reference.id}) }}" method="POST" class="inline">
+                            <input type="hidden" name="_token" value="{{ csrf_token('approve' ~ joanna_reference.id) }}">
+                            <button type="submit" class="btn btn-success gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Aprovar Referência
+                            </button>
+                        </form>
+                    {% elseif joanna_reference.createdBy == app.user %}
+                        <span class="text-sm text-base-content/50 italic">Você não pode aprovar sua própria referência</span>
+                    {% elseif joanna_reference.hasUserApproved(app.user) %}
+                        <div class="flex items-center gap-2">
+                            <span class="badge badge-success badge-lg gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                </svg>
+                                Você aprovou esta referência
+                            </span>
+                            <form action="{{ path('app_editor_joanna_reference_unapprove', {'id': joanna_reference.id}) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja remover sua aprovação?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('unapprove' ~ joanna_reference.id) }}">
+                                <button type="submit" class="btn btn-ghost btn-xs text-error tooltip" data-tip="Remover Aprovação">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <div class="flex gap-2">
+                    <a href="{{ path(route_prefix ~ (route_prefix starts with 'app_admin' ? '_index' : '_all')) }}" class="btn btn-ghost">Voltar</a>
+                    
+                    <a href="{{ path('app_admin_message_chat', {'id': joanna_reference.id}) }}" class="btn btn-secondary">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3.091-3.091c-.33-.33-.66-.66-1.01-.66H5a2.25 2.25 0 01-2.25-2.25V6.75A2.25 2.25 0 015 4.5h10.5a2.25 2.25 0 012.25 2.25v1.511z" /></svg>
+                        Chat
+                    </a>
+
+                    {% if can_manage|default(false) and (is_granted('ROLE_ADMIN') or joanna_reference.createdBy == app.user) %}
+                        <a href="{{ path(route_prefix ~ '_edit', {'id': joanna_reference.id}) }}" class="btn btn-primary">Editar</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('bible_text_container');
+            const bookId = "{{ joanna_reference.bibleBook.id }}";
+            const chapter = "{{ joanna_reference.bibleChapter }}";
+            const start = "{{ joanna_reference.bibleVerseStart }}";
+            const end = "{{ joanna_reference.bibleVerseEnd|default('') }}";
+
+            let url = `/api/bible/book/${bookId}/chapter/${chapter}/text?start=${start}`;
+            if (end) {
+                url += `&end=${end}`;
+            }
+
+            fetch(url)
+                .then(res => res.json())
+                .then(verses => {
+                    if (!verses || verses.length === 0) {
+                        container.innerHTML = '<span class="text-error italic">Texto não encontrado nesta versão da Bíblia.</span>';
+                        return;
+                    }
+
+                    // Clean Strong's markup tags like <S>H430</S> and <n>...</n>
+                    function cleanText(text) {
+                        if (!text) return '';
+                        return text
+                            .replace(/<S>.*?<\/S>/g, '')
+                            .replace(/<n>.*?<\/n>/g, '')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+                    }
+
+                    let html = '';
+                    verses.forEach(v => {
+                        const cleaned = cleanText(v.text);
+                        html += `<p class="mb-2"><span class="font-bold text-primary mr-2">${v.verse}</span>${cleaned || '<em class="text-base-content/50">Texto não disponível</em>'}</p>`;
+                    });
+                    container.innerHTML = html;
+                })
+                .catch(err => {
+                    console.error('Error fetching bible text:', err);
+                    container.innerHTML = '<span class="text-error italic">Erro ao carregar o texto bíblico.</span>';
+                });
+        });
+    </script>
+{% endblock %}

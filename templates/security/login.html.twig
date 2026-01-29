@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-base-200 flex items-center justify-center">
+    <div class="card w-full max-w-md bg-base-100 shadow-xl">
+        <div class="card-body">
+            <h2 class="card-title justify-center text-3xl font-bold text-primary mb-4">Joanna de Ângelis</h2>
+            <p class="text-center text-base-content/70 mb-6">Acesse o sistema para continuar</p>
+            
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-error mb-4">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <span>{{ error.messageKey|trans(error.messageData, 'security') }}</span>
+                    </div>
+                {% endif %}
+
+                <div class="form-control w-full">
+                    <label class="label" for="inputEmail">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="input input-bordered w-full" autocomplete="email" required autofocus placeholder="seu@email.com">
+                </div>
+
+                <div class="form-control w-full mt-4">
+                    <label class="label" for="inputPassword">
+                        <span class="label-text">Senha</span>
+                    </label>
+                    <input type="password" name="_password" id="inputPassword" class="input input-bordered w-full" autocomplete="current-password" required placeholder="••••••••">
+                    <label class="label">
+                         <a href="{{ path('app_forgot_password_request') }}" class="label-text-alt link link-hover text-primary">Esqueceu a senha?</a>
+                    </label>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <div class="form-control mt-6">
+                    <button class="btn btn-primary" type="submit">Entrar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Criar Novo Usuário{% endblock %}
+
+{% block admin_content %}
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Criar Novo Usuário</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    Adicione um novo usuário ao sistema. Atribua os perfis apropriados e credenciais.
+                </p>
+                <div class="mt-4">
+                     <a href="{{ path('app_admin_user_index') }}" class="text-indigo-600 hover:text-indigo-900">&larr; Voltar para lista</a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+             <div class="shadow sm:rounded-md sm:overflow-hidden">
+                <div class="px-4 py-5 bg-white space-y-6 sm:p-6">
+                    {{ include('admin/user/_form.html.twig', {'button_label': 'Criar Usuário'}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

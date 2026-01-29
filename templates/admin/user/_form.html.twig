@@ -1,0 +1,56 @@
+{{ form_start(form, {'attr': {'class': 'space-y-6', 'enctype': 'multipart/form-data'}}) }}
+    
+    <div>
+        {{ form_label(form.email, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        <div class="mt-1">
+            {{ form_widget(form.email, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+        </div>
+        {{ form_errors(form.email, {'attr': {'class': 'mt-2 text-sm text-red-600'}}) }}
+    </div>
+
+    <div>
+        {{ form_label(form.name, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        <div class="mt-1">
+            {{ form_widget(form.name, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+        </div>
+        {{ form_errors(form.name, {'attr': {'class': 'mt-2 text-sm text-red-600'}}) }}
+    </div>
+    
+    <div>
+        {{ form_label(form.roles, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        <div class="mt-1 flex flex-col space-y-2">
+             {% for child in form.roles %}
+                <div class="flex items-center">
+                    {{ form_widget(child, {'attr': {'class': 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'}}) }}
+                    {{ form_label(child, null, {'label_attr': {'class': 'ml-2 block text-sm text-gray-900'}}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {{ form_errors(form.roles, {'attr': {'class': 'mt-2 text-sm text-red-600'}}) }}
+    </div>
+
+    <div>
+        {{ form_label(form.password, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        <div class="mt-1">
+            {{ form_widget(form.password, {'attr': {'class': 'appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'}}) }}
+        </div>
+        {% if form.password.vars.help %}
+            <p class="mt-2 text-sm text-gray-500">{{ form.password.vars.help }}</p>
+        {% endif %}
+        {{ form_errors(form.password, {'attr': {'class': 'mt-2 text-sm text-red-600'}}) }}
+    </div>
+    
+    <div>
+        {{ form_label(form.imageProfile, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700'}}) }}
+        <div class="mt-1">
+            {{ form_widget(form.imageProfile, {'attr': {'class': 'block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100'}}) }}
+        </div>
+        {{ form_errors(form.imageProfile, {'attr': {'class': 'mt-2 text-sm text-red-600'}}) }}
+    </div>
+
+    <div class="flex items-center justify-end">
+        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            {{ button_label|default('Salvar') }}
+        </button>
+    </div>
+{{ form_end(form) }}

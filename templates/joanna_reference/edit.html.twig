@@ -1,0 +1,35 @@
+{% extends layout %}
+
+{% block title %}Editar Referência{% endblock %}
+
+{% block admin_content %}
+    {{ block('content') }}
+{% endblock %}
+
+{% block editor_content %}
+    {{ block('content') }}
+{% endblock %}
+
+{% block content %}
+    <div class="md:grid md:grid-cols-3 md:gap-6">
+        <div class="md:col-span-1">
+            <div class="px-4 sm:px-0">
+                <h3 class="text-lg font-medium leading-6 text-gray-900">Editar Referência</h3>
+                <p class="mt-1 text-sm text-gray-600">
+                    Edite os detalhes da referência bíblica na obra de Joanna de Ângelis.
+                </p>
+                 <div class="mt-4">
+                     <a href="{{ path(route_prefix ~ '_index') }}" class="text-indigo-600 hover:text-indigo-900">&larr; Voltar para lista</a>
+                </div>
+            </div>
+        </div>
+        <div class="mt-5 md:mt-0 md:col-span-2">
+             <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
+                    {{ include('joanna_reference/_form.html.twig', {'button_label': 'Atualizar Referência'}) }}
+            </div>
+            <div class="flex justify-end mt-4 px-4 sm:px-0">
+                 {{ include('joanna_reference/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

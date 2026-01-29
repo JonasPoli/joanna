@@ -1,0 +1,186 @@
+{% extends layout %}
+
+{% block title %}Referências Joanna de Ângelis{% endblock %}
+
+{% block admin_content %}
+    {{ block('content') }}
+{% endblock %}
+
+{% block editor_content %}
+    {{ block('content') }}
+{% endblock %}
+
+{% block content %}
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Referências Joanna de Ângelis</h1>
+        <div class="flex gap-2">
+            {% if show_filters|default(false) %}
+                <a href="{{ path('app_editor_joanna_reference_export', app.request.query.all) }}" class="btn btn-outline btn-success gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Exportar CSV
+                </a>
+            {% endif %}
+            {% if can_manage|default(false) %}
+                <a href="{{ path(route_prefix ~ '_new') }}" class="btn btn-primary gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                    Nova Referência
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+    {# Filtros #}
+    {% if show_filters|default(false) %}
+    <div class="bg-base-100 shadow-xl rounded-box p-4 mb-6">
+        <form method="GET" action="{{ path('app_editor_joanna_reference_all') }}" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div class="form-control">
+                <label class="label"><span class="label-text">Livro Bíblico</span></label>
+                <select name="bible_book" class="select select-bordered select-sm w-full">
+                    <option value="">Todos</option>
+                    {% set currentTestament = null %}
+                    {% for book in bible_books %}
+                        {% if book.testament.id != currentTestament %}
+                            {% if currentTestament is not null %}</optgroup>{% endif %}
+                            <optgroup label="{{ book.testament.name }}">
+                            {% set currentTestament = book.testament.id %}
+                        {% endif %}
+                        <option value="{{ book.id }}" {{ current_bible_book == book.id ? 'selected' : '' }}>{{ book.name }}</option>
+                    {% endfor %}
+                    {% if currentTestament is not null %}</optgroup>{% endif %}
+                </select>
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text">Obra da Joanna</span></label>
+                <select name="joanna_work" class="select select-bordered select-sm w-full">
+                    <option value="">Todas</option>
+                    {% for work in joanna_works %}
+                        <option value="{{ work.id }}" {{ current_joanna_work == work.id ? 'selected' : '' }}>{{ work.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text">Criado por</span></label>
+                <select name="created_by" class="select select-bordered select-sm w-full">
+                    <option value="">Todos</option>
+                    {% for user in users %}
+                        <option value="{{ user.id }}" {{ current_created_by == user.id ? 'selected' : '' }}>{{ user.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text">Tipo</span></label>
+                <select name="reference_type" class="select select-bordered select-sm w-full">
+                    <option value="">Todos</option>
+                    {% for type in reference_types %}
+                        <option value="{{ type.value }}" {{ current_reference_type == type.value ? 'selected' : '' }}>{{ type.value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-control">
+                <label class="label"><span class="label-text">&nbsp;</span></label>
+                <div class="flex gap-2">
+                    <button type="submit" class="btn btn-primary btn-sm flex-1">Filtrar</button>
+                    <a href="{{ path(route_prefix ~ (route_prefix starts with 'app_admin' ? '_index' : '_all')) }}" class="btn btn-ghost btn-sm">Limpar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- Legenda de Cores -->
+    <div class="bg-base-200 p-4 rounded-lg mb-4 flex items-center overflow-x-auto">
+        <span class="text-sm font-bold uppercase text-base-content/70 mr-4 whitespace-nowrap">Nível de Aprovação:</span>
+        <div class="flex gap-2">
+            {% for i in 0..11 %}
+                <div class="w-8 h-8 rounded flex items-center justify-center font-bold text-xs border {{ approval_color_class(i) }} {{ i == 0 ? 'bg-white border-base-300' : 'border-transparent' }}">
+                    {{ i == 11 ? '11+' : i }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="overflow-x-auto bg-base-100 shadow-xl rounded-box">
+        <table class="table w-full">
+            <thead>
+                <tr>
+                    <th>Aprovações</th>
+                    <th>Obra</th>
+                    <th>Ref. Bíblica</th>
+                    <th>Tipo</th>
+                    <th>Citação</th>
+                    <th>Criado por</th>
+                    <th class="text-right">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for joanna_reference in joanna_references %}
+                <tr class="hover {{ approval_color_class(joanna_reference.approvalCount) }}">
+                    <td>
+                        <div class="badge {{ joanna_reference.approvalCount > 0 ? 'badge-success' : 'badge-ghost' }} gap-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            {{ joanna_reference.approvalCount }}
+                        </div>
+                    </td>
+                    <td>
+                         <div class="font-bold">{{ joanna_reference.work.title|default('') }}</div>
+                         <div class="text-sm opacity-50">Cap. {{ joanna_reference.joannaChapter }}</div>
+                    </td>
+                    <td>
+                         <div class="badge badge-ghost">{{ joanna_reference.bibleBook.name|default('') }} {{ joanna_reference.bibleChapter }}:{{ joanna_reference.bibleVerseStart }}{% if joanna_reference.bibleVerseEnd %}-{{ joanna_reference.bibleVerseEnd }}{% endif %}</div>
+                    </td>
+                    <td>
+                        {% if joanna_reference.referenceType %}
+                         <div class="badge badge-primary badge-outline">{{ joanna_reference.referenceType.value }}</div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <div class="max-w-xs truncate text-sm opacity-70" title="{{ joanna_reference.citation|default('') }}">
+                            {{ joanna_reference.citation|default('-')|slice(0, 80) }}{% if joanna_reference.citation|default('')|length > 80 %}...{% endif %}
+                        </div>
+                    </td>
+                     <td>
+                        <div class="flex items-center gap-3">
+                            <div class="avatar placeholder">
+                                <div class="bg-neutral text-neutral-content rounded-full w-8">
+                                    <span class="text-xs">{{ joanna_reference.createdBy.name|first|default('U') }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="font-bold">{{ joanna_reference.createdBy.name|default('N/A') }}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="join">
+                            <a href="{{ path(route_prefix ~ '_show', {'id': joanna_reference.id}) }}" class="btn btn-sm btn-ghost join-item" title="Ver">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+                            </a>
+                            {% if can_manage|default(false) and (is_granted('ROLE_ADMIN') or joanna_reference.createdBy == app.user) %}
+                                <a href="{{ path(route_prefix ~ '_edit', {'id': joanna_reference.id}) }}" class="btn btn-sm btn-ghost join-item text-primary" title="Editar">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4">Nenhum registro encontrado</td>
+                    </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% if joanna_references|length > 0 %}
+    <div class="mt-4 text-sm opacity-60">
+        Total: {{ joanna_references|length }} referência(s)
+    </div>
+    {% endif %}
+{% endblock %}

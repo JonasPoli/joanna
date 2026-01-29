@@ -1,0 +1,49 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Obras de Joanna de Ângelis{% endblock %}
+
+{% block admin_content %}
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Obras de Joanna de Ângelis</h1>
+        <a href="{{ path('app_admin_joanna_work_new') }}" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Nova Obra</a>
+    </div>
+
+    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Título</th>
+                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ano Pub.</th>
+                    <th scope="col" class="relative px-6 py-3">
+                        <span class="sr-only">Ações</span>
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            {% for joanna_work in joanna_works %}
+                <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ joanna_work.id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm font-medium text-gray-900">{{ joanna_work.title }}</div>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ joanna_work.publicationYear }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                        <div class="flex justify-end space-x-2">
+                            <a href="{{ path('app_admin_joanna_work_edit', {'id': joanna_work.id}) }}" class="text-blue-600 hover:text-blue-900 bg-blue-50 hover:bg-blue-100 px-3 py-1 rounded-md transition-colors">Editar</a>
+                             <form method="post" action="{{ path('app_admin_joanna_work_delete', {'id': joanna_work.id}) }}" onsubmit="return confirm('Tem certeza que deseja apagar este item?');" class="inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ joanna_work.id) }}">
+                                <button class="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-md transition-colors">Apagar</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">Nenhuma obra encontrada.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
