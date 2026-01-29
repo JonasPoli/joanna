@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c9fb0f32aea2c8e5fbc75aa2b0bd493f",
+    "content-hash": "01eb243918c5bb915699405b52e015b4",
     "packages": [
         {
             "name": "composer/semver",
@@ -4307,59 +4307,6 @@
             "time": "2025-10-24T14:30:40+00:00"
         },
         {
-            "name": "symfony/debug-pack",
-            "version": "v1.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/debug-pack.git",
-                "reference": "74165335916596c8c0473e000d187fb35bfc2c8f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug-pack/zipball/74165335916596c8c0473e000d187fb35bfc2c8f",
-                "reference": "74165335916596c8c0473e000d187fb35bfc2c8f",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/debug-bundle": "*",
-                "symfony/monolog-bundle": "^3.0|^4.0",
-                "symfony/profiler-pack": "*"
-            },
-            "require-dev": {
-                "symfony/debug-bundle": "*",
-                "symfony/profiler-pack": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A debug pack for Symfony projects",
-            "support": {
-                "issues": "https://github.com/symfony/debug-pack/issues",
-                "source": "https://github.com/symfony/debug-pack/tree/v1.1.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-11-25T08:22:17+00:00"
-        },
-        {
             "name": "symfony/dependency-injection",
             "version": "v8.0.5",
             "source": {
@@ -6695,58 +6642,6 @@
             "time": "2025-11-12T15:55:31+00:00"
         },
         {
-            "name": "symfony/orm-pack",
-            "version": "v2.7.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/orm-pack.git",
-                "reference": "79a540bbaf8bf386ea112d35694dd4ea3911277e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/orm-pack/zipball/79a540bbaf8bf386ea112d35694dd4ea3911277e",
-                "reference": "79a540bbaf8bf386ea112d35694dd4ea3911277e",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/doctrine-bundle": "*",
-                "doctrine/doctrine-migrations-bundle": "*",
-                "doctrine/orm": "*"
-            },
-            "conflict": {
-                "php": "<8.1"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Doctrine ORM",
-            "support": {
-                "issues": "https://github.com/symfony/orm-pack/issues",
-                "source": "https://github.com/symfony/orm-pack/tree/v2.7.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2026-01-07T18:00:45+00:00"
-        },
-        {
             "name": "symfony/password-hasher",
             "version": "v8.0.4",
             "source": {
@@ -7390,54 +7285,6 @@
                 }
             ],
             "time": "2026-01-26T15:08:38+00:00"
-        },
-        {
-            "name": "symfony/profiler-pack",
-            "version": "v1.0.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/profiler-pack.git",
-                "reference": "bcd6e80af9819454ac18594362e7875fd1d771c7"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/profiler-pack/zipball/bcd6e80af9819454ac18594362e7875fd1d771c7",
-                "reference": "bcd6e80af9819454ac18594362e7875fd1d771c7",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/stopwatch": "*",
-                "symfony/web-profiler-bundle": "*"
-            },
-            "require-dev": {
-                "symfony/stopwatch": "*",
-                "symfony/web-profiler-bundle": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Symfony web profiler",
-            "support": {
-                "issues": "https://github.com/symfony/profiler-pack/issues",
-                "source": "https://github.com/symfony/profiler-pack/tree/v1.0.6"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2021-08-20T17:27:58+00:00"
         },
         {
             "name": "symfony/property-access",
@@ -8206,57 +8053,6 @@
             "time": "2026-01-27T09:06:43+00:00"
         },
         {
-            "name": "symfony/serializer-pack",
-            "version": "v1.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/serializer-pack.git",
-                "reference": "2844d81a5fc86b617b82f44a8bfcaaba1d583eee"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/serializer-pack/zipball/2844d81a5fc86b617b82f44a8bfcaaba1d583eee",
-                "reference": "2844d81a5fc86b617b82f44a8bfcaaba1d583eee",
-                "shasum": ""
-            },
-            "require": {
-                "phpdocumentor/reflection-docblock": "*",
-                "phpstan/phpdoc-parser": "*",
-                "symfony/property-access": "*",
-                "symfony/property-info": "*",
-                "symfony/serializer": "*"
-            },
-            "conflict": {
-                "symfony/property-info": "<5.4",
-                "symfony/serializer": "<5.4"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for the Symfony serializer",
-            "support": {
-                "issues": "https://github.com/symfony/serializer-pack/issues",
-                "source": "https://github.com/symfony/serializer-pack/tree/v1.3.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2023-06-03T13:55:25+00:00"
-        },
-        {
             "name": "symfony/service-contracts",
             "version": "v3.6.1",
             "source": {
@@ -8571,59 +8367,6 @@
                 }
             ],
             "time": "2026-01-12T12:37:40+00:00"
-        },
-        {
-            "name": "symfony/test-pack",
-            "version": "v1.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/test-pack.git",
-                "reference": "88285bd1b12ec408c09fd6abac0ba290ff81fd04"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/test-pack/zipball/88285bd1b12ec408c09fd6abac0ba290ff81fd04",
-                "reference": "88285bd1b12ec408c09fd6abac0ba290ff81fd04",
-                "shasum": ""
-            },
-            "require": {
-                "phpunit/phpunit": "*",
-                "symfony/browser-kit": "*",
-                "symfony/css-selector": "*"
-            },
-            "conflict": {
-                "phpunit/phpunit": "<11.1"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "*",
-                "symfony/browser-kit": "*",
-                "symfony/css-selector": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A pack for functional and end-to-end testing within a Symfony app",
-            "support": {
-                "issues": "https://github.com/symfony/test-pack/issues",
-                "source": "https://github.com/symfony/test-pack/tree/v1.2.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-05-20T15:03:19+00:00"
         },
         {
             "name": "symfony/translation",
@@ -8990,51 +8733,6 @@
                 }
             ],
             "time": "2026-01-06T12:43:21+00:00"
-        },
-        {
-            "name": "symfony/twig-pack",
-            "version": "v1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/twig-pack.git",
-                "reference": "08a73e833e07921c464336deb7630f93e85ef930"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-pack/zipball/08a73e833e07921c464336deb7630f93e85ef930",
-                "reference": "08a73e833e07921c464336deb7630f93e85ef930",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/twig-bundle": "*",
-                "twig/extra-bundle": "^2.12|^3.0",
-                "twig/twig": "^2.12|^3.0"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A Twig pack for Symfony projects",
-            "support": {
-                "issues": "https://github.com/symfony/twig-pack/issues",
-                "source": "https://github.com/symfony/twig-pack/tree/v1.0.1"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2020-10-19T08:46:41+00:00"
         },
         {
             "name": "symfony/type-info",
@@ -9652,87 +9350,6 @@
             "time": "2026-01-07T12:23:22+00:00"
         },
         {
-            "name": "symfony/webapp-pack",
-            "version": "v1.4.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/webapp-pack.git",
-                "reference": "3354508cf0b0209a579cae54029ec895af6500a1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/webapp-pack/zipball/3354508cf0b0209a579cae54029ec895af6500a1",
-                "reference": "3354508cf0b0209a579cae54029ec895af6500a1",
-                "shasum": ""
-            },
-            "require": {
-                "symfony/asset": "*",
-                "symfony/asset-mapper": "*",
-                "symfony/debug-pack": "*",
-                "symfony/doctrine-messenger": "*",
-                "symfony/expression-language": "*",
-                "symfony/form": "*",
-                "symfony/http-client": "*",
-                "symfony/intl": "*",
-                "symfony/mailer": "*",
-                "symfony/maker-bundle": "^1.0",
-                "symfony/mime": "*",
-                "symfony/monolog-bundle": "^3.1|^4.0",
-                "symfony/notifier": "*",
-                "symfony/orm-pack": "*",
-                "symfony/process": "*",
-                "symfony/profiler-pack": "*",
-                "symfony/security-bundle": "*",
-                "symfony/serializer-pack": "*",
-                "symfony/stimulus-bundle": "*",
-                "symfony/string": "*",
-                "symfony/test-pack": "*",
-                "symfony/translation": "*",
-                "symfony/twig-pack": "*",
-                "symfony/ux-turbo": "*",
-                "symfony/validator": "*",
-                "symfony/web-link": "*"
-            },
-            "conflict": {
-                "symfony/framework-bundle": "<6.3"
-            },
-            "require-dev": {
-                "symfony/debug-pack": "*",
-                "symfony/maker-bundle": "^1.0",
-                "symfony/profiler-pack": "*",
-                "symfony/test-pack": "*"
-            },
-            "type": "symfony-pack",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "A webapp pack on top of the default skeleton",
-            "support": {
-                "issues": "https://github.com/symfony/webapp-pack/issues",
-                "source": "https://github.com/symfony/webapp-pack/tree/v1.4.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-11-25T08:03:09+00:00"
-        },
-        {
             "name": "symfony/yaml",
             "version": "v8.0.1",
             "source": {
@@ -9806,6 +9423,53 @@
                 }
             ],
             "time": "2025-12-04T18:17:06+00:00"
+        },
+        {
+            "name": "symfonycasts/reset-password-bundle",
+            "version": "v1.24.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SymfonyCasts/reset-password-bundle.git",
+                "reference": "8e5f8f821260ccfe8085563a93b418d3ef9af29f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SymfonyCasts/reset-password-bundle/zipball/8e5f8f821260ccfe8085563a93b418d3ef9af29f",
+                "reference": "8e5f8f821260ccfe8085563a93b418d3ef9af29f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1.10",
+                "symfony/config": "^5.4 | ^6.0 | ^7.0 | ^8.0",
+                "symfony/dependency-injection": "^5.4 | ^6.0 | ^7.0 | ^8.0",
+                "symfony/deprecation-contracts": "^2.2 | ^3.0",
+                "symfony/http-kernel": "^5.4 | ^6.0 | ^7.0 | ^8.0"
+            },
+            "require-dev": {
+                "doctrine/annotations": "^1.0",
+                "doctrine/doctrine-bundle": "^2.8",
+                "doctrine/orm": "^2.13",
+                "symfony/framework-bundle": "^5.4 | ^6.0 | ^7.0 | ^8.0",
+                "symfony/phpunit-bridge": "^5.4 | ^6.0 | ^7.0 | ^8.0",
+                "symfony/process": "^6.4 | ^7.0 | ^8.0",
+                "symfonycasts/internal-test-helpers": "dev-main"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "SymfonyCasts\\Bundle\\ResetPassword\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Symfony bundle that adds password reset functionality.",
+            "support": {
+                "issues": "https://github.com/SymfonyCasts/reset-password-bundle/issues",
+                "source": "https://github.com/SymfonyCasts/reset-password-bundle/tree/v1.24.0"
+            },
+            "time": "2025-11-29T13:26:50+00:00"
         },
         {
             "name": "theseer/tokenizer",
