@@ -46,6 +46,7 @@ class JoannaReferenceType extends AbstractType
             ->add('referenceType', EnumType::class, [
                 'class' => ReferenceType::class,
                 'label' => 'Tipo de Referência',
+                'choice_label' => fn (ReferenceType $choice) => $choice->value,
             ])
             ->add('citation', TextareaType::class, [
                 'required' => false,

@@ -6,6 +6,8 @@ enum ReferenceType: string
 {
     case DIRETA = 'Direta';
     case INDIRETA = 'Indireta';
+    case INDIRETA_INDEXADA = 'Indireta Indexada';
+    case INDIRETA_NAO_INDEXADA = 'Indireta Não Indexada';
     case EPIGRAFE = 'Epígrafe';
     case OUTRO = 'Outro';
 
